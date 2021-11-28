@@ -4,6 +4,9 @@ School is to bootstrap engineers that come from Java or C# and give them just en
 with the language, the ZIO framework and the ecosystem in general.  There will be a lot of 'further reading' to dive deeper into
 various topics as the goal here isn't to exhaustively cover any particular topic.
 
+The content for this school is a mixture of stuff from the Tour of Scala from scala-lang.org, various blogs and original 
+content.  Any examples taken from blogs will be noted in the 'Further Reading' section of each session with a URL.
+
 To get started with Scala, you should have the following installed at a minimum:
 
 * JDK 17 - we recommend the latest Eclipse Temurin OpenJDK build at http://adoptium.net
