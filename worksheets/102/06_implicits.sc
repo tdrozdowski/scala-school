@@ -1,3 +1,5 @@
+import scala.annotation.tailrec
+
 // implicit parameters
 implicit val name = "Elliot"
 val age = 24
@@ -25,6 +27,7 @@ describe(angelaPerson)
 object Helpers {
   implicit class IntWithTimes(x: Int) {
     def times[A](f: => A): Unit = {
+      @tailrec
       def loop(current: Int): Unit =
         if (current > 0) {
           f
