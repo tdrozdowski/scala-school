@@ -13,11 +13,11 @@ println(s"The total is: ${sum(numbers)}")
 
 def sum(values: List[Int]): Int = {
   @tailrec
-  def sumWithAccumulator(values: List[Int], accum: Int): Int = values match {
+  def sumWithAccumulator(values: List[Int], accum: Int = 0): Int = values match {
     case Nil => accum
     case head :: tail => sumWithAccumulator(tail, accum + head)
   }
-  sumWithAccumulator(values, 0)
+  sumWithAccumulator(values)
 }
 
 val aLotOfNumbers = List.range(1,100000)
