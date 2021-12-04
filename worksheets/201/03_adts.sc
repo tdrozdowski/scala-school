@@ -28,20 +28,46 @@ case object Pan extends CrustType
 case object GlutenFree extends CrustType
 
 sealed trait Topping
+sealed trait Veggie
 case object Cheese extends Topping
 case object Pepperoni extends Topping
 case object Sausage extends Topping
-case object Mushrooms extends Topping
+case object Ham extends Topping
+case object Mushrooms extends Topping with Veggie
+case object Onions extends Topping with Veggie
+case object GreenPeppers extends Topping with Veggie
+case object Pineapple extends Topping
 
 case class Pizza(crustSize: CrustSize, crustType: CrustType, toppings: Seq[Topping])
 
 val myOrder = Pizza(Large, Thin, Seq(Cheese, Pepperoni, Sausage))
 
+val anotherOrder = Pizza(Medium, Pan, Seq(GreenPeppers, Mushrooms, Onions))
+
+val abomination = Pizza(Large, Traditional, Seq(Ham, Pineapple) )
+
 println(myOrder)
 
-def isVegetarian(topping: Topping): Boolean = topping match {
-  case Mushrooms => true
+def isVeggie(topping: Topping): Boolean = topping match {
+  case _: Veggie => true
   case _ => false
 }
 
-myOrder.toppings.map(isVegetarian).reduce(_ && _)
+def isHawaiian(topping: Topping): Boolean = topping match {
+  case Ham => true
+  case Pineapple => true
+  case _ => false
+}
+
+def checkForSpecialty(pizza: Pizza, specFunc: Topping => Boolean): Boolean = pizza.toppings.map(specFunc).reduce(_ && _)
+
+def isVegitarianPizza(pizza: Pizza) = checkForSpecialty(pizza, isVeggie)
+
+def isHawaiianPizza(pizza: Pizza) = checkForSpecialty(pizza, isHawaiian)
+
+isVegitarianPizza(myOrder)
+isVegitarianPizza(anotherOrder)
+isHawaiianPizza(myOrder)
+isVegitarianPizza(abomination)
+isHawaiianPizza(abomination)
+
