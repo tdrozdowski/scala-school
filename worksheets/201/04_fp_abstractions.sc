@@ -19,6 +19,8 @@ object SemigroupInstances {
 
 import SemigroupInstances._
 
+import scala.util.Try
+
 val intSemigroup = Semigroup[Int]
 val stringSemigroup = Semigroup[String]
 
@@ -51,3 +53,72 @@ def stringConcat(strings: Seq[String])(implicit m: Monoid[String]) = strings.fol
 val someStrings: Seq[String] = Seq("This ", "is ", "simple ", "yet ", "powerful!")
 
 stringConcat(someStrings)
+
+// functors
+val numbers = Seq(1,2,3,4)
+val doubled = numbers.map(_ * 2)
+
+val maybeTwo = Option(2)
+val maybeResults = maybeTwo.map(_ * 2)
+val triedResults = Try(42).map(_ + 2)
+
+def doubleList(list: List[Int]): List[Int] = list.map(_ * 2)
+def doubleOption(option: Option[Int]): Option[Int] = option.map(_ * 2)
+def doubleTry(attempt: Try[Int]): Try[Int] = attempt.map(_ * 2)
+
+trait Functor[F[_]] {
+  def map[A,B](container: F[A])(func: A => B): F[B]
+}
+
+object FunctorInstances {
+  implicit val listFunctor: Functor[Seq] = new Functor[Seq] {
+    override def map[A, B](container: Seq[A])(func: A => B): Seq[B] = container.map(func)
+  }
+  implicit val optionFunctor: Functor[Option] = new Functor[Option] {
+    override def map[A, B](container: Option[A])(func: A => B): Option[B] = container.map(func)
+  }
+}
+
+import FunctorInstances._
+
+def doubleX[F[_]](container: F[Int])(implicit functor: Functor[F]): F[Int] = functor.map(container)(_ * 2)
+
+doubleX(numbers)
+doubleX(maybeTwo)
+
+sealed trait Tree[+T] {
+  def map[B](f: T => B): Tree[B]
+}
+
+object Tree {
+  case class Leaf[+T](value: T) extends Tree[T] {
+    override def map[B](f: T => B): Tree[B] = Leaf(f(value))
+  }
+  case class Branch[+T](value: T, left: Tree[T], right: Tree[T]) extends Tree[T] {
+    override def map[B](f: T => B): Branch[B] = Branch(f(value), left.map(f), right.map(f))
+  }
+  def leaf[T](value: T): Tree[T] = Leaf(value)
+  def branch[T](value: T, left: Tree[T], right: Tree[T]): Tree[T] = Branch(value, left, right)
+}
+
+object TreeInstances {
+  import Tree._
+  implicit val treeFunctor: Functor[Tree] = new Functor[Tree] {
+    override def map[A, B](container: Tree[A])(func: A => B): Tree[B] = container match {
+      case Leaf(value) => Leaf(func(value))
+      case Branch(value, left, right) => Branch(func(value), left.map(func), right.map(func))
+    }
+  }
+}
+
+val tree =
+  Tree.branch(1,
+    Tree.branch(2,
+      Tree.leaf(3),
+      Tree.leaf(4)),
+    Tree.leaf(5)
+  )
+
+import TreeInstances._
+
+doubleX(tree)
