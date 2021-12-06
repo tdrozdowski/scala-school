@@ -74,9 +74,9 @@ object FunctorInstances {
   implicit val listFunctor: Functor[Seq] = new Functor[Seq] {
     override def map[A, B](container: Seq[A])(func: A => B): Seq[B] = container.map(func)
   }
-  implicit val optionFunctor: Functor[Option] = new Functor[Option] {
-    override def map[A, B](container: Option[A])(func: A => B): Option[B] = container.map(func)
-  }
+//  implicit val optionFunctor: Functor[Option] = new Functor[Option] {
+//    override def map[A, B](container: Option[A])(func: A => B): Option[B] = container.map(func)
+//  }
 }
 
 import FunctorInstances._
@@ -84,7 +84,7 @@ import FunctorInstances._
 def double[F[_]](container: F[Int])(implicit functor: Functor[F]): F[Int] = functor.map(container)(_ * 2)
 
 double(numbers)
-double(maybeTwo)
+//double(maybeTwo)
 
 sealed trait Tree[+T] {
   def map[B](f: T => B): Tree[B]
@@ -122,3 +122,31 @@ val tree =
 import TreeInstances._
 
 double(tree)
+
+// Monads
+
+val maybeFour = Option(4)
+val maybeMaybeResults: Option[Option[Int]] = maybeTwo.map(x => maybeFour.map(_ * x))
+
+val maybeResults = maybeMaybeResults.flatten
+
+val maybeResults = maybeTwo.flatMap(x => maybeFour.map(_ * x))
+
+val maybeOne = Option(1)
+val maybeTwo = Option(2)
+val maybeThree = Option(3)
+
+maybeOne.flatMap(x => maybeTwo.flatMap(y => maybeThree.map(_ + x + y)))
+
+val results = for {
+  x <- Option(1)
+  y <- Option(2)
+  z <- Option(3)
+} yield x + y + z
+
+val results = for {
+  x <- Option(1)
+  y <- Option(2)
+  z <- Option(3)
+  if (z > 3)
+} yield x + y + z
