@@ -81,10 +81,10 @@ object FunctorInstances {
 
 import FunctorInstances._
 
-def doubleX[F[_]](container: F[Int])(implicit functor: Functor[F]): F[Int] = functor.map(container)(_ * 2)
+def double[F[_]](container: F[Int])(implicit functor: Functor[F]): F[Int] = functor.map(container)(_ * 2)
 
-doubleX(numbers)
-doubleX(maybeTwo)
+double(numbers)
+double(maybeTwo)
 
 sealed trait Tree[+T] {
   def map[B](f: T => B): Tree[B]
@@ -121,4 +121,4 @@ val tree =
 
 import TreeInstances._
 
-doubleX(tree)
+double(tree)
