@@ -125,6 +125,8 @@ double(tree)
 
 // Monads
 
+trait Monad[F[_]] extends Functor[F] with Monoid[F]
+
 val maybeFour = Option(4)
 val maybeMaybeResults: Option[Option[Int]] = maybeTwo.map(x => maybeFour.map(_ * x))
 
@@ -132,21 +134,20 @@ val maybeResults = maybeMaybeResults.flatten
 
 val maybeResults = maybeTwo.flatMap(x => maybeFour.map(_ * x))
 
-val maybeOne = Option(1)
-val maybeTwo = Option(2)
-val maybeThree = Option(3)
+val maybeOne: Option[Int] = Option(1)
+val maybeThree: Option[Int] = Option(3)
 
 maybeOne.flatMap(x => maybeTwo.flatMap(y => maybeThree.map(_ + x + y)))
 
 val results = for {
-  x <- Option(1)
-  y <- Option(2)
-  z <- Option(3)
+  x <- maybeOne
+  y <- maybeTwo
+  z <- maybeThree
 } yield x + y + z
 
 val results = for {
-  x <- Option(1)
-  y <- Option(2)
-  z <- Option(3)
+  x <- maybeOne
+  y <- maybeTwo
+  z <- maybeThree
   if (z > 3)
 } yield x + y + z
