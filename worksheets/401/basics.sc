@@ -100,4 +100,4 @@ ctx.run(q)
 val str = ctx.translate(query[Person].insert(lift(Person(0, "Joe", 45))))
 println(str)
 
-*/
+ */

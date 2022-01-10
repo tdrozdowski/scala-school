@@ -1,4 +1,4 @@
-package dev.xymox.scalaschool.service.tax
+package dev.xymox.scalaschool.repositories.tax
 
 import zio._
 
