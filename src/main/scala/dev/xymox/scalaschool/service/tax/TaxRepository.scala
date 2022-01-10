@@ -2,8 +2,11 @@ package dev.xymox.scalaschool.service.tax
 
 import zio._
 
+sealed trait TaxError
+object TaxRateNotFound extends TaxError
+
 trait TaxRepository {
-  def findForZip(zip: String): Task[Float]
+  def findForZip(zip: String): IO[TaxError, Float]
 }
 
 object TaxRepository {
@@ -11,5 +14,5 @@ object TaxRepository {
 }
 
 case class TaxRepositoryLive() extends TaxRepository {
-  override def findForZip(zip: String): Task[Float] = ???
+  override def findForZip(zip: String): IO[TaxError, Float] = ???
 }
