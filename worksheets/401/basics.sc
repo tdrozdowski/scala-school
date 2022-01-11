@@ -6,14 +6,14 @@ import ctx._
 
 val pi = quote(3.14159)
 
-/*
+
 case class Circle(radius: Float)
 
 val areas = quote {
   query[Circle].map(c => pi * c.radius * c.radius)
 }
 
-/*
+
 val area = quote {
   (c: Circle) =>
     val r2 = c.radius * c.radius
@@ -24,7 +24,7 @@ val areas = quote {
   query[Circle].map(c => area(c))
 }
 
-/*
+
 def existsAny[T] = quote {
   (xs: Query[T]) => (p: T => Boolean) => xs.filter(p(_)).nonEmpty
 }
@@ -34,14 +34,14 @@ val q = quote {
 }
 
 ctx.run(q)
-/*
+
 // Avoid type widening (Quoted[Query[Circle]]), or else the quotation will be dynamic.
 val q: Quoted[Query[Circle]] = quote {
   query[Circle].filter(c => c.radius > 10)
 }
 
 ctx.run(q) // Dynamic query
-/*
+
 // do you lift, bro?
 
 def biggerThan(i: Float) = quote {
@@ -49,8 +49,6 @@ def biggerThan(i: Float) = quote {
 }
 ctx.run(biggerThan(10))
 
-
-/*
 def find(radiusList: List[Float]) = quote {
   query[Circle].filter(r => liftQuery(radiusList).contains(r.radius))
 }
@@ -60,8 +58,6 @@ def insert(circles: List[Circle]) = quote {
   liftQuery(circles).foreach(c => query[Circle].insert(c))
 }
 ctx.run(insert(List(Circle(1.1F), Circle(1.2F))))
-
-/*
 
 case class CircleRecord(radius: Float)
 
@@ -74,7 +70,7 @@ val q = quote {
 }
 
 ctx.run(q)
-/*
+
 case class Product(id: Int, description: String, sku: Long)
 
 val q = quote {
@@ -82,7 +78,7 @@ val q = quote {
 }
 
 val returnedIds = ctx.run(q)
-/*
+
 case class Person(id: Int, name: String, age: Int)
 case class Contact(personId: Int, phone: String)
 
@@ -96,8 +92,6 @@ val q = quote {
 }
 
 ctx.run(q)
-/*
+
 val str = ctx.translate(query[Person].insert(lift(Person(0, "Joe", 45))))
 println(str)
-
- */

@@ -1,6 +1,5 @@
 package dev.xymox.scalaschool.invoice
 
-import dev.xymox.scalaschool.repositories.tax.{TaxError, TaxRateNotFound, TaxRepository}
 import dev.xymox.scalaschool.service.invoice.InvoiceService
 import zio.test.Assertion.anything
 import zio.{Has, TaskLayer, UIO, ZIO, ZLayer}

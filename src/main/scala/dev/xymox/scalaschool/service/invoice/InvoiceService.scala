@@ -1,6 +1,5 @@
 package dev.xymox.scalaschool.service.invoice
 
-import dev.xymox.scalaschool.repositories.tax.{TaxError, TaxRepository}
 import zio._
 
 trait InvoiceService {

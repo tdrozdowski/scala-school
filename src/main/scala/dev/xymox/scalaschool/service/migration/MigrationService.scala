@@ -1,5 +1,6 @@
 package dev.xymox.scalaschool.service.migration
 
+import dev.xymox.scalaschool.config.Configuration
 import org.flywaydb.core.Flyway
 import zio._
 
@@ -26,8 +27,8 @@ object MigrationService {
   val serviceLayer: ZLayer[MigrationEnv, Throwable, Has[MigrationService]] =
     (MigrationServiceLive(_, _, _)).toLayer
 
-  val live: TaskLayer[Has[MigrationService]] =
-    Configuration.migrationConfigLive >>>
-      LoggingServices.simpleLive ++ flywayFromConfig ++ ZEnv.live >>>
-      serviceLayer
+  val live: TaskLayer[Has[MigrationService]] = ???
+//    Configuration.migrationConfigLive >>>
+//      LoggingServices.simpleLive ++ flywayFromConfig ++ ZEnv.live >>>
+//      serviceLayer
 }
