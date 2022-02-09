@@ -12,7 +12,7 @@ val dependencies = Seq(
   "dev.zio"       %% "zio-config-typesafe" % "2.0.0",
   "dev.zio"       %% "zio-logging-slf4j"   % "0.5.14",
 //  ("io.github.kitlangton" %% "zio-magic"           % "0.3.11").cross(CrossVersion.for3Use2_13),
-//  ("io.getquill"          %% "quill-jdbc-zio"      % "3.12.0").cross(CrossVersion.for3Use2_13),
+  "io.getquill"   %% "quill-jdbc-zio"      % "3.17.0-RC1",
   "org.flywaydb"   % "flyway-core"         % "7.9.1",
   "org.postgresql" % "postgresql"          % "42.2.22"
 )
